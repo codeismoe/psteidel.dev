@@ -2,3 +2,4 @@ _*
 dist-*
 # Local Netlify folder
 .netlify
+result*
