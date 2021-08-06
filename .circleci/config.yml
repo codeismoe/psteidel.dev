@@ -2,37 +2,20 @@ version: 2
 jobs:
   build:
     docker:
-      - image: haskell:8.10.4
+      - image: nixos/nix
     steps:
       - checkout
       - run:
-          name: Download and add nodejs apt
-          command: "curl -sL https://deb.nodesource.com/setup_12.x | bash -"
-      - run:
-          name: Install apt packages
-          command: "apt update && apt install -y graphviz mscgen curl nodejs"
-      - run:
-          name: Install netlify-cli
-          command: npm install netlify-cli -g
-      - restore_cache:
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          name: Restore Cached Dependencies
-          keys:
-            - dependencies-{{ checksum "stack.yaml" }}
+          name: Download nix channels
+          command: "nix-channel --add https://nixos.org/channels/nixos-21.05 nixpkgs && nix-channel --update"
       - run:
           name: Resolve/Update Dependencies
-          command: stack setup
-      - run: stack build
-      - save_cache:
-          name: Cache Dependencies
-          key: dependencies-{{ checksum "stack.yaml" }}
-          paths:
-            - "/root/.stack"
-            - ".stack-work"
-      - run: stack exec site build
+          command: "nix-build release.nix"
+      - run: "./result/bin/site build"
       - run:
           name: Deploy
-          command: netlify deploy --dir _site/ --prod
+          command: "nix-shell -p netlify-cli --run 'netlify deploy --dir _site --prod'"
+
 workflows:
   version: 2
   build:

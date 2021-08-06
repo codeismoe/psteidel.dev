@@ -1,10 +1,8 @@
 { pkgs ? import <nixpkgs> {} }:
 
+let
+  mypkg = pkgs.haskellPackages.callPackage ./default.nix {};
+in
 pkgs.mkShell {
-  packages = with pkgs; [
-    (haskell.packages.ghc8104.ghcWithPackages (hs: with hs; [
-      hakyll
-    ]))
-    cabal-install
-  ];
+  buildInputs = [ mypkg ];
 }
