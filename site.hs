@@ -1,10 +1,9 @@
---------------------------------------------------------------------------------
+
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Monoid (mappend)
 import           Hakyll
 import qualified GHC.IO.Encoding as E
 
---------------------------------------------------------------------------------
 main :: IO ()
 main = do
   E.setLocaleEncoding E.utf8
@@ -13,9 +12,11 @@ main = do
         route   idRoute
         compile copyFileCompiler
 
-    match "css/*" $ do
-        route   idRoute
-        compile compressCssCompiler
+    match "css/*.less" $ do
+      route $ setExtension "css"
+      compile $ getResourceString >>=
+        withItemBody (unixFilter "lessc" ["-"]) >>=
+        return . fmap compressCss
 
     match (fromList ["about.md", "contact.md"]) $ do
         route   $ setExtension "html"

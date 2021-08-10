@@ -1,11 +1,9 @@
-{ mkDerivation, base, hakyll, lib }:
-mkDerivation {
-  pname = "psteidel-dev";
-  version = "0.1.0.0";
-  src = ./.;
-  isLibrary = false;
-  isExecutable = true;
-  executableHaskellDepends = [ base hakyll ];
-  license = "unknown";
-  hydraPlatforms = lib.platforms.none;
-}
+{  pkgs ? import <nixpkgs> {} }:
+let
+  myPackage = pkgs.haskellPackages.callCabal2nix "psteidel-dev" ./. {};
+  withTools = myPackage.overrideDerivation (
+    old: {
+      nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.lessc ];
+    }
+  );
+in withTools
