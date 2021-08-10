@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Resolve/Update Dependencies
           command: "nix-build default.nix"
-      - run: "./result/bin/site build"
+      - run: "nix-shell ./default.nix --run './result/bin/site build'"
       - run:
           name: Deploy
           command: "nix-shell ./default.nix --run 'netlify deploy --dir _site --prod'"
