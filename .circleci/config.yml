@@ -14,11 +14,11 @@ jobs:
             - dependencies-{{ checksum "default.nix" }}
       - run:
           name: Resolve/Update Dependencies
-          command: "nix-build release.nix"
+          command: "nix-build default.nix"
       - run: "./result/bin/site build"
       - run:
           name: Deploy
-          command: "nix-shell -p netlify-cli --run 'netlify deploy --dir _site --prod'"
+          command: "nix-shell ./default.nix --run 'netlify deploy --dir _site --prod'"
       - save_cache:
           name: Cache dependencies
           key: dependencies-{{ checksum "default.nix" }}
