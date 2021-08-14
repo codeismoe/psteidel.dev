@@ -1,16 +1,44 @@
-@bg: #000;
+@body: #555555;
+@background: #fffeeb;
+@link: #05668d;
+@visited: #58355E;
+@title: #333333;
+@body-font: 'Open Sans', sans-serif;
+@title-font: 'Open Sans', sans-serif;
 
 html {
-  font-size: 62.5%;
+    font-size: 62.5%;
+    font-family: @body-font;
+}
+
+header, h1,h2,h3,h4,h5,h6 {
+    font-family: @title-font;
+    color: @title;
+
+    a {
+        color: @title;
+    }
+    a:visited {
+        color: @title;
+    }
+}
+
+a {
+    color: @link;
+}
+
+a:visited {
+    color: @visited;
 }
 
 body {
   font-size: 1.6rem;
-  color: @bg;
+  color: @body;
+  background-color: @background;
 }
 
 header {
-  border-bottom: 0.2rem solid #000;
+  border-bottom: 0.2rem solid @title;
 }
 
 nav {
@@ -20,17 +48,20 @@ nav {
 nav a {
   font-size: 1.8rem;
   font-weight: bold;
-  color: black;
   text-decoration: none;
-  text-transform: uppercase;
+  font-variant: small-caps;
+}
+
+nav a:visited {
+    color: @title;
 }
 
 footer {
   margin-top: 3rem;
   padding: 1.2rem 0;
-  border-top: 0.2rem solid #000;
+  border-top: 0.2rem solid @title;
   font-size: 1.2rem;
-  color: #555;
+  color: lighten(@body, 10%);
 }
 
 h1 {
@@ -44,12 +75,12 @@ h2 {
 article .header {
   font-size: 1.4rem;
   font-style: italic;
-  color: #555;
+  color: @title;
 }
 
 .logo a {
   font-weight: bold;
-  color: #000;
+  color: @title;
   text-decoration: none;
 }
 
@@ -98,16 +129,16 @@ article .header {
   footer {
     text-align: center;
   }
+  nav a {
+    display: inline;
+    margin: 0 0.6rem;
+  }
   .logo {
     text-align: center;
     margin: 1rem auto 3rem;
   }
   .logo a {
     font-size: 2.4rem;
-  }
-  nav a {
-    display: inline;
-    margin: 0 0.6rem;
   }
 }
 
