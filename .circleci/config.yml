@@ -5,13 +5,13 @@ jobs:
       - image: nixos/nix
     steps:
       - checkout
-      - run:
-          name: Download nix channels
-          command: "nix-channel --add https://nixos.org/channels/nixos-21.05 nixpkgs && nix-channel --update"
       - restore_cache:
           name: Restore cached nix store
           keys:
             - dependencies-{{ checksum "default.nix" }}
+      - run:
+          name: Download nix channels
+          command: "nix-channel --add https://nixos.org/channels/nixos-21.05 nixpkgs && nix-channel --update"
       - run:
           name: Resolve/Update Dependencies
           command: "nix-build default.nix"

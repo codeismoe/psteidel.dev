@@ -18,7 +18,7 @@ main = do
         withItemBody (unixFilter "lessc" ["-"]) >>=
         return . fmap compressCss
 
-    match (fromList ["about.md", "contact.md"]) $ do
+    match (fromList ["contact.md"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
